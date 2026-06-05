@@ -25,7 +25,7 @@ async function testRAG() {
     console.log("─".repeat(60));
 
     const embedding = await getEmbedding(query);
-    const results = await queryDocuments(embedding, 3);
+    const results = await queryDocuments(embedding, 6);
 
     if (results.length === 0) {
       console.log("⚠️  No results found.");
