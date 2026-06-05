@@ -108,7 +108,7 @@ export default function CalendarPicker({ onBookingSuccess }: CalendarPickerProps
         </div>
       )}
 
-      {error && (
+      {error && !selectedSlot && (
         <div style={{ marginBottom: "15px" }}>
           <p style={{ color: "var(--error)", fontSize: "0.9rem", margin: "0 0 10px 0" }}>{error}</p>
           <a

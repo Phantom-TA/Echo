@@ -23,6 +23,13 @@ function getMessageContent(message: any): string {
   return "";
 }
 
+// Convert markdown links [text](url) to <a> tags
+function renderMarkdown(text: string): string {
+  return text
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:var(--accent-light);text-decoration:underline">$1</a>')
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+}
+
 export default function MessageBubble({ message }: MessageBubbleProps) {
   const isAssistant = message.role === "assistant";
   const [showCalendar, setShowCalendar] = useState(false);
@@ -88,7 +95,9 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
               }),
         }}
       >
-        {content}
+        <span
+          dangerouslySetInnerHTML={{ __html: renderMarkdown(content) }}
+        />
 
         {hasCalendarSuggestion && !showCalendar && (
           <div style={{ marginTop: "12px" }}>
