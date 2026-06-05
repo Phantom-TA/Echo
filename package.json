@@ -1,0 +1,41 @@
+{
+  "name": "echo",
+  "version": "1.0.0",
+  "description": "AI Persona — Tushar Agrawal | Voice + Chat Agent with RAG",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "ingest:resume": "npx ts-node --esm scripts/ingest-resume.ts",
+    "ingest:github": "npx ts-node --esm scripts/ingest-github.ts",
+    "ingest:all": "npx ts-node --esm scripts/ingest-all.ts",
+    "ingest:update": "npx ts-node --esm scripts/ingest-github.ts --update-only",
+    "test:rag": "npx ts-node --esm scripts/test-rag.ts",
+    "eval:chat": "npx ts-node --esm evals/eval-chat.ts",
+    "eval:voice": "npx ts-node --esm evals/eval-voice.ts",
+    "eval:report": "npx ts-node --esm evals/eval-report.ts"
+  },
+  "dependencies": {
+    "next": "^15.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "openai": "^4.100.0",
+    "@pinecone-database/pinecone": "^3.0.0",
+    "pdf-parse": "^1.1.1",
+    "@octokit/rest": "^21.0.0",
+    "ai": "^4.0.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/pdf-parse": "^1.1.4",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^15.0.0",
+    "ts-node": "^10.9.2"
+  }
+}
