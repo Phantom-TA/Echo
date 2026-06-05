@@ -19,9 +19,11 @@
     "eval:report": "npx tsx --tsconfig tsconfig.json evals/eval-report.ts"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^3.0.68",
+    "@ai-sdk/react": "^3.0.199",
     "@octokit/rest": "^21.1.1",
     "@pinecone-database/pinecone": "^3.0.3",
-    "ai": "^4.3.19",
+    "ai": "^6.0.197",
     "next": "^15.0.0",
     "openai": "^4.104.0",
     "pdf-parse": "^1.1.4",
