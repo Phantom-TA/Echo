@@ -8,14 +8,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "ingest:resume": "npx ts-node --esm scripts/ingest-resume.ts",
-    "ingest:github": "npx ts-node --esm scripts/ingest-github.ts",
-    "ingest:all": "npx ts-node --esm scripts/ingest-all.ts",
-    "ingest:update": "npx ts-node --esm scripts/ingest-github.ts --update-only",
-    "test:rag": "npx ts-node --esm scripts/test-rag.ts",
-    "eval:chat": "npx ts-node --esm evals/eval-chat.ts",
-    "eval:voice": "npx ts-node --esm evals/eval-voice.ts",
-    "eval:report": "npx ts-node --esm evals/eval-report.ts"
+    "ingest:resume": "npx tsx --tsconfig tsconfig.json scripts/ingest-resume.ts",
+    "ingest:github": "npx tsx --tsconfig tsconfig.json scripts/ingest-github.ts",
+    "ingest:all": "npx tsx --tsconfig tsconfig.json scripts/ingest-all.ts",
+    "ingest:update": "npx tsx --tsconfig tsconfig.json scripts/ingest-github.ts --update-only",
+    "test:rag": "npx tsx --tsconfig tsconfig.json scripts/test-rag.ts",
+    "eval:chat": "npx tsx --tsconfig tsconfig.json evals/eval-chat.ts",
+    "eval:voice": "npx tsx --tsconfig tsconfig.json evals/eval-voice.ts",
+    "eval:report": "npx tsx --tsconfig tsconfig.json evals/eval-report.ts"
   },
   "dependencies": {
     "@octokit/rest": "^21.1.1",
@@ -33,9 +33,11 @@
     "@types/pdf-parse": "^1.1.4",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "dotenv": "^17.4.2",
     "eslint": "^9.0.0",
     "eslint-config-next": "^15.0.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.22.4",
     "typescript": "^5.0.0"
   }
 }
