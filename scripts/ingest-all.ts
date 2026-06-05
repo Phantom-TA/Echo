@@ -7,11 +7,15 @@ async function ingestAll() {
 
   const env = { ...process.env };
 
-  console.log("Step 1/2: Resume ingestion");
+  console.log("Step 1/3: Profile & Portfolio documents");
+  console.log("─".repeat(40));
+  execSync("npx tsx --tsconfig tsconfig.json scripts/ingest-profile.ts", { stdio: "inherit", env });
+
+  console.log("\nStep 2/3: Resume ingestion");
   console.log("─".repeat(40));
   execSync("npx tsx --tsconfig tsconfig.json scripts/ingest-resume.ts", { stdio: "inherit", env });
 
-  console.log("\nStep 2/2: GitHub ingestion");
+  console.log("\nStep 3/3: GitHub ingestion");
   console.log("─".repeat(40));
   execSync("npx tsx --tsconfig tsconfig.json scripts/ingest-github.ts", { stdio: "inherit", env });
 

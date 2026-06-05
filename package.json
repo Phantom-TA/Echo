@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "ingest:profile": "npx tsx --tsconfig tsconfig.json scripts/ingest-profile.ts",
     "ingest:resume": "npx tsx --tsconfig tsconfig.json scripts/ingest-resume.ts",
     "ingest:github": "npx tsx --tsconfig tsconfig.json scripts/ingest-github.ts",
     "ingest:all": "npx tsx --tsconfig tsconfig.json scripts/ingest-all.ts",
