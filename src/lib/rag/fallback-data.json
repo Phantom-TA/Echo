@@ -1,0 +1,26 @@
+[
+  {
+    "id": "fallback-profile-ai-projects",
+    "source": "resume",
+    "section": "PROFILE",
+    "content": "Tushar Agrawal has built multiple production-grade AI and LLM-powered projects: 1. IntentSync (AI-powered repository intelligence engine using GraphRAG PostgreSQL + ChromaDB + Neo4j with Google Gemini). 2. TraceLens (AI-assisted frontend performance intelligence platform automating browser audits and trace analysis, built at Voice Games). 3. Codonova (Autonomous Software Development System powered by AI agents, Neo4j knowledge graph, and React dashboard)."
+  },
+  {
+    "id": "fallback-profile-skills",
+    "source": "resume",
+    "section": "PROFILE",
+    "content": "Tushar Agrawal's technical skills: Languages: TypeScript, JavaScript, Python, C, C++. Frontend: React.js, Next.js. Backend: Node.js, Express.js, FastAPI. AI/LLM: LangChain, LangGraph, RAG pipelines, GraphRAG, OpenAI API, Google Gemini API, agentic systems. Voice AI: Vapi, ElevenLabs, Deepgram. Databases: ChromaDB, Pinecone, Neo4j, MongoDB, PostgreSQL."
+  },
+  {
+    "id": "fallback-profile-experience",
+    "source": "resume",
+    "section": "PROFILE",
+    "content": "Tushar Agrawal is a Software Engineer (AI) Intern at Voice Games (Remote, May 2026 – Present), where he engineered TraceLens, an AI-assisted frontend performance platform. He is also a B.Tech Computer Science student at LNMIIT Jaipur (2023 - 2027) with a CGPA of 7.63."
+  },
+  {
+    "id": "fallback-profile-voice",
+    "source": "resume",
+    "section": "PROFILE",
+    "content": "Tushar has experience with Vapi voice agents (STT Deepgram, TTS ElevenLabs, LLM routing GPT-4o Mini), configuring assistant settings, tool calling via webhooks, and conversational voice AI pipelines."
+  }
+]
