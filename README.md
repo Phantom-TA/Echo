@@ -14,45 +14,45 @@ Echo is an autonomous, RAG-grounded AI representative that acts as a personal in
 
 ```mermaid
 graph TB
-    subgraph "User Touchpoints"
-        Phone["📞 Phone Call"]
-        Browser["🌐 Chat Interface"]
+    subgraph User_Touchpoints [User Touchpoints]
+        Phone[Phone Call]
+        Browser[Chat Interface]
     end
 
-    subgraph "Voice Pipeline — Vapi (All Bundled)"
-        VapiOrch["Vapi Orchestrator"]
-        STT["Deepgram Nova-3 · 100ms"]
-        LLM_V["GPT-4o Mini · 390ms"]
-        TTS["ElevenLabs Turbo v2.5 · 400ms"]
+    subgraph Voice_Pipeline [Voice Pipeline - Vapi]
+        VapiOrch[Vapi Orchestrator]
+        STT[Deepgram Nova-3]
+        LLM_V[GPT-4o Mini]
+        TTS[ElevenLabs Turbo]
         Phone --> VapiOrch
         VapiOrch --> STT --> LLM_V --> TTS
         TTS --> VapiOrch
     end
 
-    subgraph "Chat Pipeline — Vercel"
-        ChatUI["Chat UI"]
-        ChatAPI["API /api/chat"]
-        LLM_C["GPT-4o Mini via OpenAI"]
+    subgraph Chat_Pipeline [Chat Pipeline - Vercel]
+        ChatUI[Chat UI]
+        ChatAPI[API /api/chat]
+        LLM_C[GPT-4o Mini via OpenAI]
         Browser --> ChatUI --> ChatAPI --> LLM_C
     end
 
-    subgraph "Shared Services"
-        RAG["RAG Retriever"]
-        VDB["Pinecone Serverless"]
-        Cal["Cal.com API"]
+    subgraph Shared_Services [Shared Services]
+        RAG[RAG Retriever]
+        VDB[Pinecone Vector DB]
+        Cal[Cal.com API]
         RAG --> VDB
         RAG --> Cal
     end
 
-    LLM_V -->|"tool call"| RAG
-    LLM_V -->|"tool call"| Cal
+    LLM_V --> RAG
+    LLM_V --> Cal
     ChatAPI --> RAG
     ChatAPI --> Cal
 
-    subgraph "Data Ingestion"
-        Resume["📄 Resume"]
-        GitHub["🐙 GitHub Repos"]
-        Embed["OpenAI Embeddings"]
+    subgraph Data_Ingestion [Data Ingestion]
+        Resume[Resume PDF]
+        GitHub[GitHub Repos]
+        Embed[OpenAI Embeddings]
         Resume --> Embed
         GitHub --> Embed
         Embed --> VDB
