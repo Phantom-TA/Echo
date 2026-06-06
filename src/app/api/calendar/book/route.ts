@@ -5,7 +5,7 @@ import { z } from "zod";
 export const runtime = "nodejs";
 
 const BookingSchema = z.object({
-  startTime: z.string().datetime({ message: "startTime must be a valid ISO 8601 datetime" }),
+  startTime: z.string().datetime({ offset: true, message: "startTime must be a valid ISO 8601 datetime" }),
   name: z.string().min(1, "Name is required"),
   email: z.string().email("A valid email is required"),
   notes: z.string().optional(),
