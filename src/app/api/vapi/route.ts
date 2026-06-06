@@ -23,14 +23,79 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const url = new URL(req.url);
+  const toolParam = url.searchParams.get("tool");
+
   let body: any;
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    body = {};
   }
 
-  // Vapi payloads wrap the message inside a top-level "message" object
+  // If the query param "tool" is present, it's a direct apiRequest tool call from Vapi
+  if (toolParam) {
+    const fnName = toolParam;
+    const fnParams = body ?? {};
+
+    // Tool: RAG lookup
+    if (fnName === "knowledge_lookup") {
+      const query = fnParams.query as string;
+      const secCheck = detectPromptInjection(query ?? "");
+      if (secCheck.blocked) {
+        return NextResponse.json({ result: INJECTION_REFUSAL });
+      }
+      const { context } = await retrieve(query);
+      return NextResponse.json({ result: context || "No specific information found for that query." });
+    }
+
+    // Tool: Get available slots
+    if (fnName === "get_calendar_slots") {
+      const slots = await getAvailableSlots(7);
+      if (slots.length === 0) {
+        return NextResponse.json({
+          result: `No slots available right now. Please book directly at ${process.env.NEXT_PUBLIC_CALCOM_URL || "https://cal.com/tushar-agrawal"}`,
+        });
+      }
+      const slotLines = slots.slice(0, 5).map((s, i) => {
+        const date = new Date(s.time);
+        const label = date.toLocaleString("en-IN", {
+          timeZone: "Asia/Kolkata",
+          weekday: "long",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        return `${i + 1}. ${label} [startTime: ${s.time}]`;
+      }).join("\n");
+      return NextResponse.json({
+        result: `Here are the available slots:\n${slotLines}\n\nWhen the user picks one, use the exact startTime value shown in brackets for the book_meeting call.`,
+      });
+    }
+
+    // Tool: Book a meeting
+    if (fnName === "book_meeting") {
+      const booking = await bookMeeting({
+        startTime: fnParams.startTime as string,
+        name: fnParams.name as string,
+        email: fnParams.email as string,
+        notes: fnParams.notes as string | undefined,
+      });
+      if (!booking) {
+        return NextResponse.json({
+          result: `I wasn't able to complete the booking automatically. Please book directly at ${process.env.NEXT_PUBLIC_CALCOM_URL || "https://cal.com/tushar-agrawal"}`,
+        });
+      }
+      return NextResponse.json({
+        result: `Your meeting has been booked successfully! Booking ID: ${booking.uid ?? booking.id}. You'll receive a confirmation email shortly. Looking forward to chatting, ${fnParams.name}!`,
+      });
+    }
+
+    return NextResponse.json({ result: "Unknown tool" }, { status: 400 });
+  }
+
+  // Vapi payloads wrap standard messages inside a top-level "message" object
   const message = body.message || body;
 
   // ── Handle Vapi message types ──────────────────────────────────────────────
