@@ -23,15 +23,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  let body: VapiMessage;
+  let body: any;
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
+  // Vapi payloads wrap the message inside a top-level "message" object
+  const message = body.message || body;
+
   // ── Handle Vapi message types ──────────────────────────────────────────────
-  switch (body.type) {
+  switch (message.type) {
 
     // Called when Vapi wants the assistant configuration
     case "assistant-request": {
@@ -67,8 +70,8 @@ export async function POST(req: Request) {
 
     // Called when the assistant invokes a tool/function
     case "function-call": {
-      const fnName = body.functionCall?.name;
-      const fnParams = body.functionCall?.parameters ?? {};
+      const fnName = message.functionCall?.name;
+      const fnParams = message.functionCall?.parameters ?? {};
 
       // Tool: RAG lookup
       if (fnName === "knowledge_lookup") {
