@@ -89,8 +89,23 @@ export async function POST(req: Request) {
             result: `No slots available right now. Please book directly at ${process.env.NEXT_PUBLIC_CALCOM_URL || "https://cal.com/tushar-agrawal"}`,
           });
         }
-        const slotList = slots.slice(0, 5).map((s) => s.time).join(", ");
-        return NextResponse.json({ result: `Available times: ${slotList}. Would you like to book one of these?` });
+        // Return numbered list with exact ISO strings clearly labeled
+        // so the AI can pass the exact startTime to book_meeting
+        const slotLines = slots.slice(0, 5).map((s, i) => {
+          const date = new Date(s.time);
+          const label = date.toLocaleString("en-IN", {
+            timeZone: "Asia/Kolkata",
+            weekday: "long",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          return `${i + 1}. ${label} [startTime: ${s.time}]`;
+        }).join("\n");
+        return NextResponse.json({
+          result: `Here are the available slots:\n${slotLines}\n\nWhen the user picks one, use the exact startTime value shown in brackets for the book_meeting call.`,
+        });
       }
 
       // Tool: Book a meeting
