@@ -107,7 +107,7 @@ export async function POST(req: Request) {
           });
         }
         return NextResponse.json({
-          result: `Your meeting has been booked! You'll receive a confirmation email shortly. Looking forward to chatting, ${fnParams.name}!`,
+          result: `Your meeting has been booked successfully! Booking ID: ${booking.uid ?? booking.id}. You'll receive a confirmation email shortly. Looking forward to chatting, ${fnParams.name}!`,
         });
       }
 

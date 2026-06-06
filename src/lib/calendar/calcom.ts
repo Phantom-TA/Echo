@@ -94,11 +94,29 @@ export async function bookMeeting(params: {
     }),
   });
 
-  if (!res.ok) {
-    console.error("Cal.com booking error:", res.status, await res.text());
+  const responseText = await res.text();
+  console.log("[Cal.com booking raw response]:", res.status, responseText);
+
+  let data: any;
+  try {
+    data = JSON.parse(responseText);
+  } catch {
+    console.error("Cal.com booking: invalid JSON response");
     return null;
   }
 
-  const data = await res.json();
-  return data?.data ?? null;
+  // Cal.com v2 returns { status: "success", data: {...} } on success
+  // and { status: "error", error: {...} } on failure
+  if (data?.status !== "success") {
+    console.error("Cal.com booking failed:", JSON.stringify(data));
+    return null;
+  }
+
+  const booking = data?.data ?? null;
+  if (!booking?.uid && !booking?.id) {
+    console.error("Cal.com booking: no uid/id in response:", JSON.stringify(data));
+    return null;
+  }
+
+  return booking;
 }

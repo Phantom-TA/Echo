@@ -16,7 +16,8 @@
     "test:rag": "npx tsx --tsconfig tsconfig.json scripts/test-rag.ts",
     "eval:chat": "npx tsx --tsconfig tsconfig.json evals/eval-chat.ts",
     "eval:voice": "npx tsx --tsconfig tsconfig.json evals/eval-voice.ts",
-    "eval:report": "npx tsx --tsconfig tsconfig.json evals/eval-report.ts"
+    "eval:report": "npx tsx --tsconfig tsconfig.json evals/eval-report.ts",
+    "fetch:vapi-logs": "npx tsx --tsconfig tsconfig.json scripts/fetch-vapi-logs.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.68",
