@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import MessageBubble from "./MessageBubble";
 import TypingIndicator from "./TypingIndicator";
+import VoiceButton from "./VoiceButton";
 
 const SUGGESTIONS = [
   "What is IntentSync?",
@@ -191,14 +192,17 @@ export default function ChatWindow() {
           </div>
         </div>
 
-        {/* Calendar Shortcut */}
-        <button
-          onClick={() => handleSuggestionClick("Schedule an interview / call")}
-          className="btn-primary"
-          style={{ fontSize: "0.85rem", padding: "8px 16px" }}
-        >
-          📅 Book Call
-        </button>
+        {/* Header Actions */}
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <VoiceButton />
+          <button
+            onClick={() => handleSuggestionClick("Schedule an interview / call")}
+            className="btn-primary"
+            style={{ fontSize: "0.85rem", padding: "8px 16px" }}
+          >
+            📅 Book Call
+          </button>
+        </div>
       </div>
 
       {/* Messages Scroll Area */}

@@ -23,6 +23,7 @@
     "@ai-sdk/react": "^3.0.199",
     "@octokit/rest": "^21.1.1",
     "@pinecone-database/pinecone": "^3.0.3",
+    "@vapi-ai/web": "^2.5.2",
     "ai": "^6.0.197",
     "next": "^15.0.0",
     "openai": "^4.104.0",
