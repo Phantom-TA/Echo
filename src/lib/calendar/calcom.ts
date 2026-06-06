@@ -60,7 +60,15 @@ export async function getAvailableSlots(
   const data = await res.json();
   // data.data.slots is a Record<date, CalSlot[]>
   const slotsByDay: Record<string, CalSlot[]> = data?.data?.slots ?? {};
-  return Object.values(slotsByDay).flat().slice(0, 10); // return max 10 slots
+  
+  // Group and limit to max 5 slots per day to ensure future days are not starved
+  const limitedSlots: CalSlot[] = [];
+  for (const daySlots of Object.values(slotsByDay)) {
+    if (Array.isArray(daySlots)) {
+      limitedSlots.push(...daySlots.slice(0, 5));
+    }
+  }
+  return limitedSlots.slice(0, 20); // Return max 20 slots
 }
 
 /**
