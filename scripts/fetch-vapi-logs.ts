@@ -46,19 +46,16 @@ async function fetchCalls(): Promise<any[]> {
 }
 
 function extractLatency(call: any): number | null {
-  // Try latency from analysis
-  const analysis = call.analysis ?? {};
-  if (analysis.firstResponseTime) return analysis.firstResponseTime;
-
-  // Try from costBreakdown or messages
   const messages: any[] = call.messages ?? [];
-  const botFirstMsg = messages.find((m: any) => m.role === "bot" || m.role === "assistant");
-  const userFirstMsg = messages.find((m: any) => m.role === "user");
-
-  if (botFirstMsg?.time && userFirstMsg?.time) {
-    return Math.round(botFirstMsg.time - userFirstMsg.time);
+  const firstUserMsgIndex = messages.findIndex((m: any) => m.role === "user");
+  if (firstUserMsgIndex === -1) return null;
+  const firstUserMsg = messages[firstUserMsgIndex];
+  const nextBotMsg = messages.slice(firstUserMsgIndex + 1).find((m: any) => m.role === "bot" || m.role === "assistant");
+  
+  if (firstUserMsg?.endTime && nextBotMsg?.time) {
+    const latency = Math.round(nextBotMsg.time - firstUserMsg.endTime);
+    return latency > 0 ? latency : null;
   }
-
   return null;
 }
 

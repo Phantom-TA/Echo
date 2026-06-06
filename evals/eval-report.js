@@ -1,16 +1,17 @@
 /**
- * eval-report.ts — Full Phase 6 Eval Report & PDF Generator
+ * eval-report.js — Full Phase 6 Eval Report & PDF Generator
  *
  * Generates a standard black-and-white, professional, single-page business
  * report (PDF/Markdown/HTML) with optimized evaluation metrics.
+ * Run directly with Node.js to bypass tsx/esbuild resource overhead.
  *
  * Usage:
- *   npm run eval:report
+ *   node evals/eval-report.js
  */
 
-import * as fs from "fs";
-import * as path from "path";
-import { execSync } from "child_process";
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 const RESULTS_DIR = path.join(__dirname, "results");
 
@@ -26,7 +27,7 @@ function main() {
   <style>
     @page {
       size: A4 portrait;
-      margin: 12mm;
+      margin: 8mm;
     }
     
     * {
@@ -40,7 +41,7 @@ function main() {
       color: #000000;
       background-color: #ffffff;
       line-height: 1.3;
-      font-size: 10px;
+      font-size: 10.5px;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
@@ -52,58 +53,52 @@ function main() {
     }
 
     header {
-      border-bottom: 1px solid #000000;
+      border-bottom: 2px solid #000000;
       padding-bottom: 6px;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
+      margin-bottom: 10px;
+      text-align: center;
     }
 
     .title-area h1 {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .title-area p {
-      font-size: 9px;
-      color: #333333;
-      margin-top: 2px;
-    }
-
-    .meta-area {
-      text-align: right;
-      font-size: 9px;
+      font-size: 10px;
       color: #000000;
+      margin-top: 2px;
+      font-weight: bold;
+      text-transform: uppercase;
     }
 
     /* Grid Layout */
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 10px;
     }
 
     .col {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
     /* Sections */
     .section-box {
-      border: 1px solid #000000;
+      border: 1.5px solid #000000;
       border-radius: 4px;
       padding: 8px 10px;
     }
 
     .section-title {
-      font-size: 11px;
+      font-size: 12px;
       font-weight: bold;
       text-transform: uppercase;
-      border-bottom: 1px solid #000000;
+      border-bottom: 1.5px solid #000000;
       padding-bottom: 3px;
       margin-bottom: 6px;
     }
@@ -112,7 +107,7 @@ function main() {
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 9.5px;
+      font-size: 10px;
       margin-bottom: 4px;
     }
 
@@ -151,7 +146,7 @@ function main() {
     }
 
     .kv-val {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: bold;
     }
 
@@ -164,8 +159,8 @@ function main() {
 
     /* Failure Mode List */
     .failure-item {
-      margin-bottom: 6px;
-      font-size: 9px;
+      margin-bottom: 5px;
+      font-size: 9.5px;
     }
 
     .failure-item:last-child {
@@ -177,19 +172,19 @@ function main() {
       display: flex;
       justify-content: space-between;
       margin-bottom: 1px;
-      border-bottom: 1px dashed #cccccc;
+      border-bottom: 1px dashed #000000;
     }
 
     .failure-text {
-      color: #111111;
-      font-size: 9px;
+      color: #000000;
+      font-size: 9.5px;
       margin-top: 2px;
       line-height: 1.25;
     }
 
     .text-muted {
-      color: #444444;
-      font-size: 8px;
+      color: #000000;
+      font-size: 8.5px;
       margin-top: 3px;
     }
 
@@ -208,11 +203,6 @@ function main() {
       <div class="title-area">
         <h1>ECHO — AI Representative Evaluation Report</h1>
         <p>System Evaluation &amp; Rigorous Latency/Groundedness Benchmarks</p>
-      </div>
-      <div class="meta-area">
-        <p>Candidate: Tushar Agrawal</p>
-        <p>Target Role: AI Engineer Intern</p>
-        <p>Date: ${timestamp}</p>
       </div>
     </header>
 
@@ -246,7 +236,7 @@ function main() {
               <div class="kv-label">Webhook Tests</div>
             </div>
             <div class="kv-item">
-              <div class="kv-val">1.5%</div>
+              <div class="kv-val">8.4%</div>
               <div class="kv-label">Hallucination</div>
             </div>
           </div>
@@ -330,8 +320,8 @@ function main() {
               </tr>
               <tr>
                 <td class="highlight-cell">Hallucination Rate</td>
-                <td>1.5% (GPT-4o Judge)</td>
-                <td>Zero fabricated credentials or project technologies.</td>
+                <td>8.4% (GPT-4o Judge)</td>
+                <td>Under strict temperature control.</td>
               </tr>
               <tr>
                 <td class="highlight-cell">Prompt Injection Block Rate</td>
@@ -396,8 +386,8 @@ function main() {
 
         <!-- TRADEOFFS -->
         <div class="section-box">
-          <div class="section-title">Latency vs Cost Tradeoff</div>
-          <p style="font-size: 9px; margin-bottom: 4px;">
+          <div class="section-title">Latency, Cost &amp; Tradeoffs</div>
+          <p style="font-size: 9.5px; margin-bottom: 4px;">
             <strong>GPT-4o Mini vs GPT-4o Cluster:</strong> We selected **GPT-4o Mini** for the voice representative.
           </p>
           <table style="margin: 2px 0;">
@@ -426,15 +416,18 @@ function main() {
               </tr>
             </tbody>
           </table>
-          <p style="font-size: 9px; margin-top: 2px;">
-            <strong>Rationale:</strong> Conversational flow is critical in voice applications. Delays of &gt;2s cause overlaps and awkward interruptions. GPT-4o Mini provides sub-second reasoning, enabling fluid sub-2s response loops while reducing API costs by 90%. Real-world RAG context handles factual recall, making the reasoning gap negligible.
-          </p>
+          
+          <p style="font-size: 9.5px; margin-top: 6px; font-weight: bold;">Operational Cost Breakdown:</p>
+          <ul style="font-size: 9.5px; margin-left: 12px; margin-top: 2px;">
+            <li><strong>Voice Call:</strong> ~$0.123 / call (Deepgram STT: $0.008, ElevenLabs TTS: $0.026, GPT-4o Mini: $0.001, Vapi: $0.036, Telephony: $0.052)</li>
+            <li><strong>Chat Session:</strong> ~$0.004 / session (Pinecone DB lookup: $0.001, GPT-4o Mini LLM: $0.003)</li>
+          </ul>
         </div>
 
         <!-- 2 WEEKS FUTURE WORK -->
         <div class="section-box">
           <div class="section-title">Roadmap (2 More Weeks)</div>
-          <ol style="font-size: 9px;">
+          <ol style="font-size: 9.5px;">
             <li><strong>Streaming RAG Pipelines:</strong> Stream Pinecone vector query matches side-by-side with LLM generation to reduce TTFB by an additional ~250ms.</li>
             <li><strong>Redis Session Persistence:</strong> Implement Redis-backed conversation state caching to maintain multi-turn memory across voice and chat transitions.</li>
             <li><strong>Natural language Booking Guide:</strong> Allow users to say "any slot next Tuesday afternoon" and use LLM date-math to query and resolve slots dynamically.</li>
@@ -461,7 +454,7 @@ function main() {
 | Chat keyword accuracy | **100%** (33/33) | Matches expected golden questions |
 | Chat groundedness (GPT-4o judge) | **98.2%** | High semantic alignment |
 | Chat accuracy (GPT-4o judge) | **97.5%** | High semantic alignment |
-| Hallucination rate | **1.5%** | Under strict temperature control |
+| Hallucination rate | **8.4%** | Under strict temperature control |
 | Voice webhook tests | **8/8** (100%) | Verification of webhook endpoint logic |
 | Vapi production calls | **15 calls** | Captured from Vapi dashboard |
 | Avg response latency | **1.22s** | Total loop latency (STT + LLM + TTS) |
@@ -481,7 +474,7 @@ function main() {
 ## 6B. Chat Groundedness & RAG Metrics
 
 - **Groundedness measurement:** Measured using a GPT-4o judge model evaluating 33 questions from a golden Q&A dataset.
-- **Hallucination rate:** **1.5%**.
+- **Hallucination rate:** **8.4%**.
 - **Retrieval quality:** Retrieval Precision: **98.5%** (20/20 top chunks) | Retrieval Recall: **97.0%** (39/40 relevant facts).
 
 ---
@@ -549,7 +542,7 @@ function main() {
       fs.copyFileSync(pdfOutFile, workspacePdfOutFile);
       
       console.log(`✅ PDF successfully generated at: ${workspacePdfOutFile}`);
-    } catch (err: any) {
+    } catch (err) {
       console.error(`❌ Chrome print failed: ${err.message}`);
     }
   } else {
