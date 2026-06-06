@@ -57,7 +57,7 @@ export async function POST(req: Request) {
           result: `No slots available right now. Please book directly at ${process.env.NEXT_PUBLIC_CALCOM_URL || "https://cal.com/tushar-agrawal"}`,
         });
       }
-      const slotLines = slots.slice(0, 15).map((s, i) => {
+      const slotLines = slots.slice(0, 30).map((s, i) => {
         const date = new Date(s.time);
         const label = date.toLocaleString("en-IN", {
           timeZone: "Asia/Kolkata",
@@ -159,7 +159,7 @@ export async function POST(req: Request) {
         }
         // Return numbered list with exact ISO strings clearly labeled
         // so the AI can pass the exact startTime to book_meeting
-        const slotLines = slots.slice(0, 15).map((s, i) => {
+        const slotLines = slots.slice(0, 30).map((s, i) => {
           const date = new Date(s.time);
           const label = date.toLocaleString("en-IN", {
             timeZone: "Asia/Kolkata",
