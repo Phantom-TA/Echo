@@ -2,8 +2,8 @@ import { getEmbedding } from "@/lib/rag/embeddings";
 import { queryDocuments } from "@/lib/rag/pinecone";
 import type { RetrievedChunk } from "@/types/rag";
 
-const TOP_K = 6;
-const MIN_SCORE = 0.35; // Discard very low relevance chunks
+const TOP_K = 8;
+const MIN_SCORE = 0.25; // Retrieve more chunks — model will use the best ones
 
 /**
  * Retrieves relevant knowledge chunks for a given query.
@@ -17,7 +17,7 @@ export async function retrieve(query: string): Promise<{
     // Attempt standard Pinecone + OpenAI RAG with a timeout of 2.5 seconds
     const embeddingPromise = getEmbedding(query);
     const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error("RAG timeout")), 2500)
+      setTimeout(() => reject(new Error("RAG timeout")), 5000) // 5s — allows Pinecone cold starts
     );
 
     const embedding = await Promise.race([embeddingPromise, timeoutPromise]);

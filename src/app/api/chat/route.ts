@@ -56,8 +56,8 @@ export async function POST(req: Request) {
       model: openai("gpt-4o-mini"),
       system: systemPrompt,
       messages: modelMessages,
-      maxOutputTokens: 500,
-      temperature: 0.7,
+      maxOutputTokens: 600,
+      temperature: 0.3,  // Lower = more factual, less hallucination
       abortSignal: AbortSignal.timeout(25_000),
     });
 
