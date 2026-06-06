@@ -29,7 +29,7 @@ if (!VAPI_API_KEY) {
 }
 
 async function fetchCalls(): Promise<any[]> {
-  const res = await fetch(`https://api.vapi.ai/call?limit=${LIMIT}&sortOrder=DESC`, {
+  const res = await fetch(`https://api.vapi.ai/call?limit=${LIMIT}`, {
     headers: {
       Authorization: `Bearer ${VAPI_API_KEY}`,
       "Content-Type": "application/json",
