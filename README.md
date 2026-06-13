@@ -1,6 +1,6 @@
 # Echo — AI Representative & Resume Persona
 
-Echo is an autonomous, RAG-grounded AI representative that acts as a personal interviewer and representative. The system is available over both a **web chat interface** and a **live voice/phone call interface**, enabling recruiters to ask questions about skills, experience, and projects, and schedule real-time interviews directly into Google Calendar.
+Echo is an autonomous, RAG-grounded AI representative that acts as a personal interviewer and representative.The system is available over both a **web chat interface** and a **live voice/phone call interface**, enabling recruiters to ask questions about skills, experience, and projects, and schedule real-time interviews directly into Google Calendar.
 
 ---
 
