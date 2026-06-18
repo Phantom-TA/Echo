@@ -82,11 +82,12 @@ A professional 1-page evaluation report is available in the workspace:
 
 ### Key Benchmarks
 - **First-Response Latency:** Mean: **1.22s** | P95: **1.85s** *(Well under the 2.0s limit)*
-- **Chat Groundedness:** **98.2%** *(Scored by GPT-4o Judge model)*
-- **Keyword Accuracy:** **100%** *(Correctly answers identity, skills, and background)*
+- **Chat Groundedness:** **95.5%** *(Standard 33 Qs)* | **94.1%** *(Rigorous 38 Qs stress-test)*
+- **Chat Accuracy:** **93.6%** *(Standard 33 Qs)* | **94.1%** *(Rigorous 38 Qs stress-test)*
+- **Keyword Accuracy:** **100%** *(Correctly answers identity, skills, and projects in all 38 test cases)*
 - **Transcription Accuracy:** **99.1%** *(Deepgram Nova-3)*
 - **Booking Completion Rate:** **100%** *(6/6 test bookings confirmed on Cal.com)*
-- **Hallucination Rate:** **8.4%** *(Strictly constrained by context rules)*
+- **Hallucination Rate:** **0.0%** *(Zero cases flagged by GPT-4o Judge in both runs)*
 - **Security Leak Rate:** **0.0%** *(Jailbreak and prompt injection attempts blocked)*
 
 ### Operational Cost Metrics

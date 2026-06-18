@@ -57,7 +57,7 @@ export async function POST(req: Request) {
       system: systemPrompt,
       messages: modelMessages,
       maxOutputTokens: 600,
-      temperature: 0.3,  // Lower = more factual, less hallucination
+      temperature: 0.1,  // Lower = more factual, less hallucination
       abortSignal: AbortSignal.timeout(25_000),
     });
 

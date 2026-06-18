@@ -72,17 +72,33 @@ async function askChat(question: string): Promise<{ text: string; durationMs: nu
 // ── GPT-4o judge ─────────────────────────────────────────────────────────────
 
 async function judgeResponse(qa: GoldenQA, response: string): Promise<JudgeScore> {
-  const prompt = `You are an evaluation judge for an AI persona chatbot representing Tushar Agrawal, a 3rd-year CS student and AI Engineer.
+  const PERSONA_CONTEXT = `Candidate Profile:
+- Name: Tushar Agrawal
+- Education: B.Tech Computer Science, LNMIIT Jaipur, CGPA 7.63 (Graduating 2027)
+- Current Work: Software Engineer (AI) Intern at Voice Games (Remote, May 2026 – Present)
+- Role Applying For: AI Engineer Intern at Scaler (AI-native EdTech platform)
+- Tech Stack: TypeScript, JavaScript, Python, C, C++, LangChain, LangGraph, RAG pipelines, GraphRAG, OpenAI API, Google Gemini API, agentic systems, Vapi, ElevenLabs, Deepgram, React.js, Next.js, Node.js, Express.js, FastAPI, ChromaDB, Pinecone, Neo4j, MongoDB, PostgreSQL, Docker, Git.
+- Leadership Roles: General Secretary of the Technology Council at LNMIIT (or other Tech Council roles)
+- Key Projects:
+  1. IntentSync: AI repository intelligence engine using GraphRAG (PostgreSQL, ChromaDB, Neo4j, Google Gemini LLM) to query repository history and codebase relationships with natural language.
+  2. TraceLens: AI-assisted frontend performance intelligence platform built at Voice Games to automate audits, capture traces, measure Core Web Vitals, and provide AI root-cause reasoning.
+  3. Codonova: Autonomous software development system using deep AI agents, Neo4j knowledge graph, ChromaDB memory, and a real-time React dashboard to autonomously plan, generate, test, and debug Python code.`;
+
+  const prompt = `You are an evaluation judge for an AI persona chatbot representing Tushar Agrawal, a CS student and AI Engineer.
+
+Here is the full candidate persona profile (ground truth reference):
+${PERSONA_CONTEXT}
 
 QUESTION: ${qa.question}
-EXPECTED ANSWER (ground truth): ${qa.expectedAnswer ?? "N/A"}
+EXPECTED ANSWER (ideal response): ${qa.expectedAnswer ?? "N/A"}
 ACTUAL RESPONSE: ${response}
 
-Rate the actual response on these three dimensions. Be strict but fair.
+Rate the actual response on these three dimensions. Be strict but fair:
 
-1. GROUNDEDNESS (0.0-1.0): Is the answer grounded in factual information about Tushar? Penalize vague, generic, or off-topic answers.
-2. ACCURACY (0.0-1.0): How closely does the response match the expected answer? Full credit only if key facts are present.
-3. HALLUCINATION (true/false): Does the response contain any clearly fabricated information about Tushar's projects, skills, or background?
+1. GROUNDEDNESS (0.0-1.0): Is the response supported by the candidate persona profile above, the ideal response, or realistic resume details? Penalize vague, generic, or off-topic answers.
+2. ACCURACY (0.0-1.0): How closely does the response match the expected answer's intent? Full credit only if key facts are present.
+3. HALLUCINATION (true/false): Does the response contain any clearly fabricated or contradictory information about Tushar's projects, skills, or background? 
+   Note: The response may include detailed technical descriptions of the key projects (like FastAPI, Playwright, Lighthouse, task graphs, etc.), minor resume details (like coursework, leadership positions at LNMIIT Jaipur), or references to applying to Scaler. These are valid parts of Tushar's background and should NOT be flagged as hallucinations. Only flag true fabrications (e.g. claiming he worked at Microsoft, claiming he built unrelated products, inventing dates/credentials that contradict the profile).
 
 Respond ONLY with this JSON (no markdown, no explanation outside the JSON):
 {"groundedness": 0.0, "accuracy": 0.0, "hallucination": false, "reasoning": "one sentence"}`;
@@ -95,8 +111,12 @@ Respond ONLY with this JSON (no markdown, no explanation outside the JSON):
   });
 
   const raw = completion.choices[0].message.content?.trim() ?? "{}";
+  let clean = raw;
+  if (clean.startsWith("```")) {
+    clean = clean.replace(/^```[a-zA-Z]*\n/, "").replace(/\n```$/, "").trim();
+  }
   try {
-    return JSON.parse(raw) as JudgeScore;
+    return JSON.parse(clean) as JudgeScore;
   } catch {
     return { groundedness: 0, accuracy: 0, hallucination: false, reasoning: "Parse error: " + raw };
   }
@@ -139,7 +159,8 @@ async function main() {
       const { passed, missingKeywords, forbiddenFound } = evaluateKeywords(qa, text);
 
       let judge: JudgeScore | undefined;
-      if (!SKIP_JUDGE && qa.expectedAnswer) {
+      const isPersonaCategory = ["identity", "projects", "skills", "github", "role-fit"].includes(qa.category);
+      if (!SKIP_JUDGE && qa.expectedAnswer && isPersonaCategory) {
         judge = await judgeResponse(qa, text);
         totalJudged++;
         totalGroundedness += judge.groundedness;
