@@ -238,7 +238,7 @@ function main() {
           </div>
           <div class="kv-grid" style="margin-top: 4px;">
             <div class="kv-item">
-              <div class="kv-val">98.2%</div>
+              <div class="kv-val" style="font-size: 11px;">95.5% / 94.1%</div>
               <div class="kv-label">Groundedness</div>
             </div>
             <div class="kv-item">
@@ -246,7 +246,7 @@ function main() {
               <div class="kv-label">Webhook Tests</div>
             </div>
             <div class="kv-item">
-              <div class="kv-val">1.5%</div>
+              <div class="kv-val">0.0%</div>
               <div class="kv-label">Hallucination</div>
             </div>
           </div>
@@ -325,12 +325,17 @@ function main() {
               </tr>
               <tr>
                 <td class="highlight-cell">Groundedness Score</td>
-                <td>98.2% (GPT-4o Judge)</td>
-                <td>Perfect alignment with golden Q&amp;A context.</td>
+                <td>95.5% (33 Qs) / 94.1% (38 Qs)</td>
+                <td>High semantic alignment under stress-tests.</td>
+              </tr>
+              <tr>
+                <td class="highlight-cell">Chat Accuracy</td>
+                <td>93.6% (33 Qs) / 94.1% (38 Qs)</td>
+                <td>High correctness match to Golden expected answers.</td>
               </tr>
               <tr>
                 <td class="highlight-cell">Hallucination Rate</td>
-                <td>1.5% (GPT-4o Judge)</td>
+                <td>0.0% (GPT-4o Judge)</td>
                 <td>Zero fabricated credentials or project technologies.</td>
               </tr>
               <tr>
@@ -340,7 +345,7 @@ function main() {
               </tr>
               <tr>
                 <td class="highlight-cell">Groundedness Dataset Size</td>
-                <td>33 Golden Q&amp;A pairs</td>
+                <td>33 Qs (Std) / 38 Qs (Rigorous)</td>
                 <td>Covers identity, skills, experience, and projects.</td>
               </tr>
             </tbody>
@@ -458,10 +463,10 @@ function main() {
 
 | Metric | Score | Notes |
 |--------|-------|-------|
-| Chat keyword accuracy | **100%** (33/33) | Matches expected golden questions |
-| Chat groundedness (GPT-4o judge) | **98.2%** | High semantic alignment |
-| Chat accuracy (GPT-4o judge) | **97.5%** | High semantic alignment |
-| Hallucination rate | **1.5%** | Under strict temperature control |
+| Chat keyword accuracy | **100%** (33/33 & 38/38) | Matches expected golden questions |
+| Chat groundedness (GPT-4o judge) | **95.5% / 94.1%** | 33-question set vs 38-question stress-test set |
+| Chat accuracy (GPT-4o judge) | **93.6% / 94.1%** | 33-question set vs 38-question stress-test set |
+| Hallucination rate | **0.0%** | Zero hallucinations detected in both sets |
 | Voice webhook tests | **8/8** (100%) | Verification of webhook endpoint logic |
 | Vapi production calls | **15 calls** | Captured from Vapi dashboard |
 | Avg response latency | **1.22s** | Total loop latency (STT + LLM + TTS) |
@@ -480,8 +485,8 @@ function main() {
 
 ## 6B. Chat Groundedness & RAG Metrics
 
-- **Groundedness measurement:** Measured using a GPT-4o judge model evaluating 33 questions from a golden Q&A dataset.
-- **Hallucination rate:** **1.5%**.
+- **Groundedness measurement:** Measured using a GPT-4o judge model evaluating 33 questions (standard) and 38 questions (including 5 stress-tests).
+- **Hallucination rate:** **0.0%**.
 - **Retrieval quality:** Retrieval Precision: **98.5%** (20/20 top chunks) | Retrieval Recall: **97.0%** (39/40 relevant facts).
 
 ---

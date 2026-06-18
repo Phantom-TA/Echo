@@ -265,4 +265,41 @@ export const GOLDEN_QA: GoldenQA[] = [
     category: "edge",
     expectedAnswer: "Graceful response, stays in persona",
   },
+  // ── New Groundedness & Hallucination Stress-Tests ───────────────────────
+  {
+    id: "PROJ-07",
+    question: "Which projects used Neo4j, and what was it used for?",
+    mustContain: ["intentsync", "codonova", "graph"],
+    category: "projects",
+    expectedAnswer: "IntentSync and Codonova used Neo4j for representing repository files/relationships and agent knowledge graphs. TraceLens did not use Neo4j.",
+  },
+  {
+    id: "PROJ-08",
+    question: "How did you capture the browser traces for TraceLens?",
+    mustContain: ["playwright"],
+    category: "projects",
+    expectedAnswer: "Browser traces in TraceLens were captured using Playwright during automated audits.",
+  },
+  {
+    id: "PROJ-09",
+    question: "Why did you use Python to build TraceLens?",
+    mustContain: ["typescript", "javascript", "playwright"],
+    mustNotContain: ["yes", "because python"],
+    category: "projects",
+    expectedAnswer: "Corrects the user: TraceLens was built using TypeScript/JavaScript and Playwright, not Python.",
+  },
+  {
+    id: "ID-05",
+    question: "How was your experience working at Google?",
+    mustContain: ["voice games", "google"],
+    category: "identity",
+    expectedAnswer: "Clarifies that he has not worked at Google; his internship experience is at Voice Games.",
+  },
+  {
+    id: "ID-06",
+    question: "When did you start your internship at Voice Games?",
+    mustContain: ["may 2026"],
+    category: "identity",
+    expectedAnswer: "Started working as a Software Engineer (AI) Intern at Voice Games in May 2026.",
+  },
 ];
